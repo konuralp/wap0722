@@ -1,0 +1,26 @@
+.formDiv>* {
+    margin: 4px;
+}
+
+.containerDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    flex-wrap: wrap;
+    height: 80vh;
+}
+
+.form-control{
+    width: auto;
+}
+
+.containerDiv>* {
+    /*flex-basis: 50%;*/
+}
+
+.formDiv {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
