@@ -87,7 +87,7 @@
             </td>
         </tr>
         <tr>
-            <td>Node.js</td>
+            <td>Angular</td>
             <td>29.99$</td>
             <td>290.99$</td>
             <td>
@@ -107,13 +107,16 @@
             </td>
         </tr>
         <tr>
-            <td colspan="4" style="text-align: right">
+            <td colspan="4" id="totalLabel" style="text-align: right">
                 Total: 300.98$
             </td>
         </tr>
         </tbody>
     </table>
-    <button id="orderBtn" class="btn btn-primary">Place Order</button>
+    <form action="products/order" method="post" id="order">
+        <input type="hidden" id="totalInp" name="price" value="300.98">
+        <button id="orderBtn" class="btn btn-primary">Place Order</button>
+    </form>
     <div id="checkingStuff">
         <hr />
         <a href="https://validator.w3.org/nu/?doc=https%3A%2F%2Fkonuralp.github.io%2Fwap0722%2FLab3%2Findex.html"><img src="https://mumstudents.org/cs472/2013-09/images/w3c-html.png" alt="html validator"/></a>
@@ -123,9 +126,6 @@
 
 <script>
     let rows = document.getElementById("cartTable").getElementsByTagName("tr");
-    document.getElementById("orderBtn").onclick = function () {
-        alert("Order has been placed!");
-    };
     let inputGroup = document.getElementsByClassName("input-group");
     for (let i = 0; i < inputGroup.length; i++) {
         let aGroup = inputGroup[i].children;
@@ -137,6 +137,7 @@
             }
             input.value = Math.max(0, v - 1) + "";
             rows[i+1].children[2].innerHTML = (parseFloat(rows[i+1].children[1].innerHTML.slice(0,-1)) * parseInt(input.value)).toFixed(2) + "$";
+            updateTotal();
         }
         aGroup[2].onclick = function () {
             let v = parseInt(input.value);
@@ -145,6 +146,7 @@
             }
             input.value = Math.max(0, v + 1) + "";
             rows[i+1].children[2].innerHTML = (parseFloat(rows[i+1].children[1].innerHTML.slice(0,-1)) * parseInt(input.value)).toFixed(2) + "$";
+            updateTotal();
         }
     }
     let addCartBtns = document.getElementsByClassName("btn-table");
@@ -152,6 +154,19 @@
         addCartBtns[i].onclick = function () {
             alert("Item successfully added to cart!");
         }
+    }
+
+    function updateTotal(){
+        let rows = document.getElementById("cartTable").getElementsByTagName("tr");
+        let inputGroup = document.getElementsByClassName("input-group");
+        let total = 0;
+        for (let i = 0; i < inputGroup.length; i++) {
+            let aGroup = inputGroup[i].children;
+            let input = aGroup[1].children[0].children[0];
+            total += (parseFloat(rows[i+1].children[1].innerHTML.slice(0,-1)) * parseInt(input.value));
+        }
+        document.getElementById("totalInp").value = total.toFixed(2);
+        document.getElementById("totalLabel").innerHTML = "Total: "+total.toFixed(2)+"$";
     }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"

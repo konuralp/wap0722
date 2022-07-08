@@ -20,9 +20,13 @@ app.get('/', (req,res, next)=>res.sendFile(path.join(htmlPath, 'index.html')));
 app.use('/products',productRouter);
 app.use('/users',userRouter);
 
-app.use((req, res)=>{
+app.use((req, res, next) => {
     res.status(404).sendFile(path.join(htmlPath, '404.html'));
-})
+});
+
+app.use((err, req, res, next) => {
+    res.status(500).send(`Some error happened! ${err}`);
+});
 
 const port = app.get('port');
 
